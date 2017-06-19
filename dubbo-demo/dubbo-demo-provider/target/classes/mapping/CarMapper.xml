@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?> 
+			<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.squid.dao.CarMapper">
+	<resultMap id="BaseResultMap" type="com.squid.bean.Car">
+		<id column="id" property="id" />
+		<result column="p_id" property="pId"/>
+		<result column="m_id" property="mId"/>
+	</resultMap>
+	<insert id="insert">
+	    insert into
+	    eb_car values(#{id},#{pId},#{mId})
+	</insert>
+	<select id="findByMId" resultMap="BaseResultMap">
+	    select *
+	    from eb_car
+	    where m_id=#{mId}
+	</select>
+	<select id="findPIdByMId" resultType="java.lang.Integer" >
+	    select p_id
+	    from eb_car
+	    where m_id=#{mId}
+	</select>
+	<select id="getMaxId" resultType="java.lang.Integer">
+	    select max(id)
+	    from eb_car
+	</select>
+</mapper>

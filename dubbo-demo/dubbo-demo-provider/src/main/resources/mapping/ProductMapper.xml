@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?> 
+			<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.squid.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.squid.bean.Product">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="price" property="price" />
+		<result column="numbers" property="numbers" />
+		<result column="discription" property="discription" />
+		<result column="parameter" property="parameter" />
+		<result column="package_list" property="packageList" />
+		<result column="image" property="image" />
+		<result column="sale_type" property="saleType" />
+		<association property="productSecondType" column="s_id" select="findPSTById"/>
+		<association property="publish" column="publish_id" select="findPById"/>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name,price,numbers,discription,parameter,package_list,s_id,image,sale_type,publish_id
+	</sql>
+	<!-- 根据销售类型查找商品 -->
+    <select id="findBySaleType" resultMap="BaseResultMap">
+        select 
+		<include refid="Base_Column_List"/>
+        from eb_product
+        where sale_type=#{saleType}
+    </select>
+    <!-- 根据id查找商品 -->
+    <select id="findById" resultMap="BaseResultMap">
+        select 
+		*
+        from eb_product
+        where id=#{id}
+    </select>
+    <select id="findPSTById" parameterType="int" resultType="com.squid.bean.ProductSecondType">
+        select *
+        from eb_product_second_type
+        where id=#{s_id}
+    </select>
+    <select id="findPById" parameterType="int" resultType="com.squid.bean.Publish">
+        select *
+        from eb_publish
+        where id=#{publish_id}
+    </select>
+</mapper>

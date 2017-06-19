@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?> 
+			<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.squid.dao.MemberMapper">
+    <resultMap id="BaseResult" type="com.squid.bean.Member">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="password" property="password" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name,password,phone,email
+	</sql>
+	<insert id="insert"> 
+			insert into eb_member values(#{id},#{name},#{password},#{phone},#{email})
+	</insert>
+	<select id="selectByName" parameterType="String" resultType="com.squid.bean.Member">
+	    select 
+		<include refid="Base_Column_List" /> 
+	    from eb_member
+	    where name=#{name}
+	</select>
+	<select id="findById" parameterType="Integer" resultType="com.squid.bean.Member">
+	    select 
+		<include refid="Base_Column_List" /> 
+	    from eb_member
+	    where id=#{id}
+	</select>
+	<update id="updateByName" parameterType="com.squid.bean.Member">
+	    update eb_member 
+	    set password=#{password} 
+	    where name=#{name}
+	</update>
+	<update id="updateInfo" parameterType="com.squid.bean.Member">
+	    update eb_member 
+	    set password=#{password},
+	    phone=to_number(#{phone}),
+	    email=#{email}
+	    where name=#{name}
+	</update>
+</mapper>
